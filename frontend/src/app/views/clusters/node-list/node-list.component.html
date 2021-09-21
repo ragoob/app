@@ -1,0 +1,92 @@
+
+
+<div class="card">
+    <div class="card-header">
+      
+        Nodes List
+    </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-lg-12">
+                  <div class="mat-elevation-z8">
+                   
+                    <table mat-table [dataSource]="dataSource">
+                      
+                  
+                      <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Name. </th>
+                        <td mat-cell *matCellDef="let element"> 
+                          {{element.name}}
+                        </td>
+                      </ng-container>
+                  
+                  
+                      <!-- Weight Column -->
+                      <ng-container matColumnDef="provider">
+                        <th mat-header-cell *matHeaderCellDef> provider </th>
+                        <td mat-cell *matCellDef="let element"> {{element.kubeletVersion}} </td>
+                      </ng-container>
+                  
+                      <!-- Symbol Column -->
+                      <ng-container matColumnDef="cpu">
+                        <th mat-header-cell *matHeaderCellDef> CPU </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <small>
+                                {{element.cpuUsageCores | mbTogb}}/{{element.totalCpuCores | mbTogb}}  Cores
+                              </small>
+                              <div class="progress progress-xs mt-2 mb-0 mr-2" title="{{element.cpuUsagePercentage}}">
+                                <div role="progressbar"  aria-valuemin="0" aria-valuemax="100"
+                                  class="progress-bar bg-{{element.cpuUsagePercentage | progressStatus}}" [style.width]="element.cpuUsagePercentage"></div>
+                              </div>
+                           
+                           </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="memory">
+                        <th mat-header-cell *matHeaderCellDef> Memory </th>
+                        <td mat-cell *matCellDef="let element">
+                            <small>
+                                {{element.memoryUsage | mbTogb}}/{{element.totalMemory | mbTogb}}  Gb
+                              </small>
+                              <div class="progress progress-xs mt-2 mb-0 mr-2" title="{{element.memoryUsagePercentage}}">
+                                <div role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                  class="progress-bar bg-{{element.memoryUsagePercentage | progressStatus}}" [style.width]="element.memoryUsagePercentage"></div>
+                              </div>
+                            
+
+                          </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="address">
+                        <th mat-header-cell *matHeaderCellDef> Address </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.ipAddress}}
+
+                          </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="pods">
+                        <th mat-header-cell *matHeaderCellDef> Pods </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.pods}}
+
+                          </td>
+                      </ng-container>
+
+                
+                  
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                  
+                    
+                      <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                                     showFirstLastButtons 
+                                     aria-label="Select page of Events">
+                      </mat-paginator>
+                    </div>
+              </div>
+          </div>
+          
+      </div>
+    </div>

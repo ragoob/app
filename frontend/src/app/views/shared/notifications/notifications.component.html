@@ -1,0 +1,10 @@
+<ng-container *ngFor="let item of notifications; let i = index">
+    <alert [type]="item.type">
+        <div role="alert" class="alert alert-{{item.type}}">
+            <button *ngIf="item.dismissible" (click)="close(i)" type="button" aria-label="Close" class="close"><span aria-hidden="true">×</span><span
+                    class="sr-only">Close</span></button>
+           {{item.message}}
+        </div>
+        <!---->
+    </alert>
+</ng-container>
