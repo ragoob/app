@@ -1,3 +1,5 @@
+import { Injectable } from "@angular/core"
+
 export enum ResourceTypes {
     RESOUCETYPE_NODES = "Nodes",
     RESOUCETYPE_NAMESPACES = "Name Spaces",
@@ -10,15 +12,20 @@ export enum ResourceTypes {
 
 export enum EventsTypes {
     Added = "ADDED",
-	Modified = "MODIFIED",
-	Deleted = "DELETED",
-	Bookmark = "BOOKMARK",
-	Error = "ERROR"
+    Modified = "MODIFIED",
+    Deleted = "DELETED",
+    Bookmark = "BOOKMARK",
+    Error = "ERROR"
 }
 
 export class ResourceResult<T extends BaseResource> {
     resourceType: ResourceTypes
     data: K8sItems<T>
+}
+
+export class ResourceResultOne<T extends BaseResource> {
+    resourceType: ResourceTypes
+    data: T
 }
 
 export class K8sItems<T extends BaseResource>{
@@ -360,6 +367,13 @@ export class Deployments extends BaseResource {
         replicas?: number,
         updatedReplicas?: number
     }
+
+    lastState: {
+        state: string
+        message: string
+        reason: string
+    }
+
 }
 
 export class Services extends BaseResource {
@@ -521,4 +535,43 @@ export class Events extends BaseResource {
     type?: string
 
 
+}
+
+export enum ConditionsTypes {
+    Available = 'Available',
+    Progressing = 'Progressing'
+}
+
+export enum ConditionsState {
+    Active = 'Active',
+    Updating = 'Updating',
+    Error = 'Error'
+}
+
+@Injectable({ providedIn: 'root' })
+export class ResourcesUtils {
+    public addDeploymentLastState(deployment: Deployments) {
+        deployment.lastState = {
+            state: '',
+            message: '',
+            reason: ''
+        }
+        if (deployment.status?.conditions.length > 0) {
+            const Available = deployment.status?.conditions.find(c => c.type == ConditionsTypes.Available)
+            const Progressing = deployment.status?.conditions.find(c => c.type == ConditionsTypes.Progressing)
+            if (Available && Available.status == 'True') {
+                deployment.lastState.state = ConditionsState.Active
+                deployment.lastState.message = Available.message
+                deployment.lastState.reason = Available.reason
+            } else if (Progressing && Progressing.status == 'True') {
+                deployment.lastState.state = ConditionsState.Updating
+                deployment.lastState.message = Available.message
+                deployment.lastState.reason = Available.reason
+            } else {
+                deployment.lastState.state = ConditionsState.Error
+                deployment.lastState.message = Available.message
+                deployment.lastState.reason = Available.reason
+            }
+        }
+    }
 }

@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header">{{data.title}}</div>
     <div class="card-body">
-        <form [formGroup]="form">
+        <mat-dialog-content [formGroup]="form">
             <ng-container *ngFor="let item of data.columns">
                 <div class="row">
                     <div class="col-sm-12">
@@ -22,13 +22,14 @@
                     </div>
                 </div>
             </ng-container>
-            <div class="row">
-                <div class="col-12">
-                    <button type="button" (click)="Save()" class="btn btn-primary mr-2">Save</button>
-                    <button type="button" (click)="cancel()" class="btn btn-info ">Cancel</button>
-                </div>
+           
+        </mat-dialog-content>
+        <mat-dialog-actions>
+
+            <button type="button" (click)="Save()" class="btn btn-primary mr-2">Save</button>
         
-            </div>
-        </form>
+            <button type="button" (click)="cancel()" class="btn btn-info ">Cancel</button>
+        
+        </mat-dialog-actions>
     </div>
 </div>

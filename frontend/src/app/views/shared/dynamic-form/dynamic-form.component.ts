@@ -41,6 +41,12 @@ export class DynamicFormComponent implements OnInit {
       }
      
     }
-   
+   else{
+     Object.keys( this.form.controls)
+     .forEach(k=> {
+      this.form.controls[k].markAsDirty()
+      this.form.controls[k].markAsTouched()
+     })
+   }
   }
 }

@@ -36,45 +36,45 @@ export class DefaultLayoutComponent implements OnInit {
     this.navItems[1].children = res.data.map(d=> {
       return {
         name: d.name,
-        url: `/clusters/${d.name}`,
+        url: `/connections/${d.name}`,
         icon: 'c-icon cil-cloud',
         children: [
           {
             name: "Over view",
             icon: 'c-icon cil-bar-chart',
-            url: `/clusters/${d.name}`
+            url: `/connections/${d.name}`
           },
           {
           name: "Name spaces",
           icon: 'fa fa-shopping-basket',
-          url: `/clusters/${d.name}/namespaces`
+          url: `/connections/${d.name}/namespaces`
         },
         {
           name: "Deployments",
           icon: 'fa fa-envelope-o',
-          url: `/clusters/${d.name}/deployments`
+          url: `/connections/${d.name}/namespaces/all/deployments`
         },
         {
           name: "Services",
           icon: "fa fa-wrench",
-          url:`/clusters/${d.name}/services`
+          url:`/connections/${d.name}/namespaces/all/services`
 
         },
        
         {
           name: "Pods",
           icon: 'fa fa-shopping-bag',
-          url: `/clusters/${d.name}/pods`
+          url: `/connections/${d.name}/namespaces/all/pods`
         },
         {
           name: "Ingresses",
           icon: 'fa fa-globe',
-          url: `/clusters/${d.name}/ingresses`
+          url: `/connections/${d.name}/namespaces/all/ingresses`
         },
         {
           name: "Secrets",
           icon: 'fa fa-user-secret',
-          url: `/clusters/${d.name}/secrets`
+          url: `/connections/${d.name}/namespaces/all/secrets`
         }
        ]
       } 

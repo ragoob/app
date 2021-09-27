@@ -36,7 +36,11 @@ export const routes: Routes = [
       },
 
       {
-        path: 'clusters/:cluserId',
+        path: 'multi-cluster',
+        loadChildren: () => import('./views/multi-cluster/multi-cluster.module').then(m => m.MultiClusterModule)
+      },
+      {
+        path: 'connections/:cluserId',
         loadChildren: () => import('./views/clusters/clusters.module').then(m => m.ClustersModule)
       }
     ]

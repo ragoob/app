@@ -1,0 +1,20 @@
+
+<div class="animated fadeIn">
+
+    <div class="card" *ngIf="model">
+        <div class="card-header">
+      
+           Related Pods
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <app-pod-list [selector]="selector"></app-pod-list>
+                </div>
+            </div>
+        </div>
+  </div>
+  <app-cluster-events  *ngIf="model" [objectType]="'Deployment'" [objectName]="model.metadata.name"></app-cluster-events>
+
+
+</div>

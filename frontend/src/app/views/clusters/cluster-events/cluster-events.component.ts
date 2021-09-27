@@ -1,4 +1,5 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ThrowStmt } from '@angular/compiler';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,26 +15,27 @@ import { EventsService } from 'src/app/core/services/events.service';
   styleUrls: ['./cluster-events.component.scss']
 })
 export class ClusterEventsComponent implements OnInit , AfterViewInit ,OnDestroy {
-
+  @Input('objectType') public objectType?: string;
+  @Input('objectName') public objectName?: string;
   destroyed$: ReplaySubject<boolean> = new ReplaySubject(1)
-  displayedColumns: string[] = ["nameSpace","type","objectName","reason","lastTimestamp","message"];
-  dataSource = new MatTableDataSource<Events>([]);
+  dataSource: Events[] = []
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
 
-  constructor(private changeDetectorRefs: ChangeDetectorRef,private eventService: EventsService) { }
+  constructor(private eventService: EventsService) { }
 
   ngOnInit(): void {
     this.eventService.result$
-    .pipe(filter(res=> res != null),
+    .pipe(filter(res=> res != null 
+      && (res.data.items.findIndex(c=> 
+        (c.involvedObject.name == this.objectName || !this.objectName) && 
+        (c.involvedObject.kind == this.objectType || !this.objectType)) > -1 )
+      ),
      takeUntil(this.destroyed$)
     )
     .subscribe(res=> {
-      this.dataSource = new MatTableDataSource<Events>(res.data.items)
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      this.changeDetectorRefs.detectChanges();
+      this.dataSource =res.data.items
     })
     this.eventService.get()
   }
@@ -44,8 +46,7 @@ export class ClusterEventsComponent implements OnInit , AfterViewInit ,OnDestroy
   }
   
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  
   }
 
 

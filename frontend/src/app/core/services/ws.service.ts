@@ -1,29 +1,30 @@
 import { Injectable } from "@angular/core";
 import { Observable, Observer, Subject } from "rxjs";
+import { NotificationService } from "./notification.service";
 
 @Injectable()
 export class WebSocketService<T> {
-  private subject: Subject<MessageEvent>;
-
+ constructor(private notification: NotificationService){}
   public connect(url): Subject<MessageEvent> {
-    if (!this.subject) {
-      this.subject = this.create(url);
-      console.log("Successfully connected: " + url);
-    }
-    return this.subject;
+    
+    return this.create(url);
+    
+   
   }
   
   private create(url): Subject<MessageEvent> {
     let ws = new WebSocket(url);
-
     let observable = Observable.create((obs: Observer<MessageEvent>) => {
+      ws.onopen = ()=>{
+        this.notification.info(`Socket connecting to ${url}`)
+      }
       ws.onmessage = obs.next.bind(obs);
       ws.onerror = (event)=> {
-        console.log('error ',event)
+        this.notification.error("Socket connection error")
         obs.error.bind(obs)
       };
       ws.onclose = (e)=> {
-        console.log('connection closed ',e)
+      this.notification.warning(`Socket disconnected from ${url}`)
         obs.complete.bind(obs)
       };
       return ws.close.bind(ws);

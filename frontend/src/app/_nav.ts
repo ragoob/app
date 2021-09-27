@@ -4,20 +4,22 @@ export const navItems: INavData[] = [
   {
     name: 'Home',
     url: '/dashboard',
-    icon: 'icon-dashboard',
-    badge: {
-      variant: 'info',
-      text: 'NEW'
-    }
+    icon: 'icon-dashboard'
   },
   {
-    name: 'Clusters',
+    name: 'connections',
     url: '/icons',
     icon: 'icon-star',
     children: [
      
     ]
   },
+  {
+    name: 'multi-cluster',
+    url: '/multi-cluster',
+    icon: 'fa fa-globe',
+  },
+
   {
     name: 'Management',
     url: '/managment',

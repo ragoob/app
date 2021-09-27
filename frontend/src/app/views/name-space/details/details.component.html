@@ -1,6 +1,25 @@
 
 <div class="animated fadeIn">
-    
+
     <app-compontents-over-view></app-compontents-over-view>
+    <div class="card">
+     
+          <div class="card-body">
+              <div class="row">
+                  <div class="col-12">
+                    <mat-tab-group>
+                        <mat-tab label="Deployments">
+                            <app-deployment-list></app-deployment-list>
+                        </mat-tab>
+                        <mat-tab label="Pods">
+                            <app-pod-list></app-pod-list>
+                        </mat-tab>
+                        <mat-tab label="Services">Services</mat-tab>
+                        <mat-tab label="Ingress">Ingress</mat-tab>
+                      </mat-tab-group>
+                  </div>
+              </div>
+          </div>
+    </div>
     <app-cluster-events></app-cluster-events>
 </div>

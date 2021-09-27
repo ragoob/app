@@ -20,7 +20,7 @@ export const environment = {
     events: '/events'
   },
   sockets: {
-      health: '/health',
+      health: '/healthaknowlegment',
       monitoring: "/monitoring",
       outbound: "/outbound"
   }

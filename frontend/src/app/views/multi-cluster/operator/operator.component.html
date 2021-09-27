@@ -1,0 +1,79 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+
+      Multi Cluster Operation (Do distributed actions on multiple Clusters compontents that match a selector)
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label>Select Clusters</label>
+            <p-multiSelect [options]="clusters" [(ngModel)]="model.clusters" placeholder="Choose"
+              [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" [style]="{'width':'100%'}">
+            </p-multiSelect>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label>Select Compontent Kind</label>
+            <p-dropdown [options]="kinds" [showClear]="true" (onChange)="onKindChange()" [(ngModel)]="model.kinds"
+              placeholder="Choose" [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
+              [style]="{'width':'100%'}"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label>Available actions</label>
+            <p-dropdown [options]="actions" [showClear]="true" [disabled]="!model|| !model.kinds"
+              [(ngModel)]="model.actions" placeholder="Choose" [showTransitionOptions]="'0ms'"
+              [hideTransitionOptions]="'0ms'" [style]="{'width':'100%'}"></p-dropdown>
+          </div>
+        </div>
+       
+      </div>
+
+      <div class="row">
+       
+       
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label>Match Selector Value</label>
+            <div class="row">
+              <div class="col-lg-6">
+                <input class="form-control" placeholder="Selector Key" [(ngModel)]="model.matchSelectorValue" />
+              </div>
+              <div class="col-lg-6">
+                <input class="form-control" placeholder="Selector Value" [(ngModel)]="model.matchSelectorKey" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label>Name Space</label>
+            <input class="form-control" [(ngModel)]="model.nameSpace" />
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <div class="form-check mt-30">
+
+            <mat-checkbox [(ngModel)]="model.subscribeToResult" class="example-margin">Subscribe to results</mat-checkbox>
+
+          </div>
+        </div>
+      </div>
+      <button type="button" (click)="find()" class="btn btn-primary mb-2">Check Availability</button>
+
+      <div class="row">
+        <div class="col-lg-12">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

@@ -16,7 +16,7 @@ export class ClustersService {
 
   }
 
-  async get(name?: string): Promise<ClusterResult> {
+  async get(): Promise<ClusterResult> {
     return this.http.get<ClusterResult>(`${this.baseUrl}${environment.api.clusters}`)
     .pipe(map(res=> {
       this.result$.next(res)

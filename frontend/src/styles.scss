@@ -48,3 +48,28 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   box-shadow: none !important;
 }
 
+.feedback{
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  display: block;
+}
+
+.p-datatable .p-datatable-thead > tr > th{
+  background: #fff !important
+}
+
+.mat-dialog-override {
+  mat-dialog-actions{
+    position: fixed;
+       
+  }
+}
+
+.cdk-overlay-container {
+  z-index: 3000 !important;
+}
+
+.mt-30{
+  margin-top: 30px !important;
+}

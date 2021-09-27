@@ -32,7 +32,7 @@
                       <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef> Name. </th>
                         <td mat-cell *matCellDef="let element"> 
-                        <a [routerLink]="['/clusters/',element.name]" routerLinkActive="router-link-active">
+                        <a [routerLink]="['/connections/',element.name]" routerLinkActive="router-link-active">
                             {{element.name}}
                         </a>    
                         </td>
@@ -42,7 +42,7 @@
                       <ng-container matColumnDef="nodesCount">
                         <th mat-header-cell *matHeaderCellDef> Nodes </th>
                         <td mat-cell *matCellDef="let element"> 
-                          <a [routerLink]="['/clusters/',element.name]" routerLinkActive="router-link-active">
+                          <a [routerLink]="['/connections/',element.name]" routerLinkActive="router-link-active">
                             {{element.metrics.nodesCount}}
                         </a>   
                           

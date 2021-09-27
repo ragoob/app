@@ -27,7 +27,13 @@ export class NameSpaceService  extends BaseService{
   create(name: string): Promise<any> {
     return  this.http.post(`${this.baseUrl}${environment.api.k8s}/${this.clusterId()}${environment.api.nameSpaces}/${name}`,{})
     .pipe(map(res => {
-      //this.get()
+      return res
+    })).toPromise()
+  }
+
+  delete(name: string): Promise<any> {
+    return  this.http.delete(`${this.baseUrl}${environment.api.k8s}/${this.clusterId()}${environment.api.nameSpaces}/${name}`)
+    .pipe(map(res => {
       return res
     })).toPromise()
   }

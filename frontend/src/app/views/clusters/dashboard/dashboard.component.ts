@@ -14,8 +14,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.route.params
     .subscribe((params: Params) => {
-      const Id = params.cluserId
-      this.clusterService.get(Id)
+      this.clusterService.get()
     });  
   }
 

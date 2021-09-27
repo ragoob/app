@@ -23,6 +23,21 @@ const routes: Routes = [
       title: 'Name Spaces'
     },
     loadChildren: () => import('../name-space/name-space.module').then(m => m.NameSpaceModule)
+  },
+  {
+    path: 'namespaces/:id/deployments',
+    data: {
+      title: 'Deployments'
+    },
+    loadChildren: () => import('../deployments/deployments.module').then(m => m.DeploymentsModule)
+  },
+
+  {
+    path: 'namespaces/:id/pods',
+    data: {
+      title: 'Deployments'
+    },
+    loadChildren: () => import('../pods/pods.module').then(m => m.PodsModule)
   }
 ];
 

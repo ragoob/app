@@ -52,6 +52,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { WebSocketService } from './core/services/ws.service';
 import { SharedModule } from './views/shared/shared.module';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
@@ -70,7 +72,9 @@ import { SharedModule } from './views/shared/shared.module';
     IconModule,
     IconSetModule.forRoot(),
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    ToastrModule.forRoot()
+
   ],
   declarations: [
     AppComponent,
@@ -96,6 +100,7 @@ import { SharedModule } from './views/shared/shared.module';
     AuthService,
     AuthGuard,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {panelClass: 'mat-dialog-override'}},
     JwtHelperService,
     WebSocketService
   ],

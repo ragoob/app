@@ -1,0 +1,47 @@
+<div class="card">
+    <div class="card-header">Create From Yaml</div>
+    <div class="card-body">
+        <mat-dialog-content [formGroup]="form">
+            
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                    <input type='file' (change)="fileChanged($event)">
+                     
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                     <p-dropdown  [options]="nameSpaces"  formControlName="namespaces" [style]="{'width':'100%'}"></p-dropdown>
+
+                     
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                       
+                        <textarea 
+                        [ngClass]="{
+                            'is-invalid':
+                            form.controls['yml'].invalid &&
+                              (form.controls['yml'].dirty ||
+                              form.controls['yml'].touched) && submitting
+                          }"
+                        class="form-control" rows="15" formControlName="yml" type="text">
+                    </textarea>
+                     
+                    </div>
+                </div>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions>
+
+            <button type="button" (click)="Save()" class="btn btn-primary mr-2">Save</button>
+        
+            <button type="button" (click)="cancel()" class="btn btn-info ">Cancel</button>
+        
+        </mat-dialog-actions>
+    </div>
+</div>

@@ -1,28 +1,74 @@
 import { Injectable } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { Notifications } from "../models/notifications";
+import { Notifications, NotificationTypes } from "../models/notifications";
 
 @Injectable({providedIn: 'root'})
 export class NotificationService{
-   private defaultDuration: number = 5
-   private defaultDismissible: boolean = true
-    private Notifications$: Subject<Notifications> = new Subject()
-    constructor(){
+
+    constructor(private toastr: ToastrService){
 
     }
 
     public Add(model: Notifications){
-        if(!model.durationTime){
-            model.durationTime = this.defaultDuration
-        }
-        if(model.dismissible == null){
-            model.dismissible = this.defaultDismissible
-        }
-        this.Notifications$.next(model)
+       switch(model.type){
+           case NotificationTypes.SUCCESS:{
+            this.toastr.success(model.message, '')
+             break;
+           }
+
+           case NotificationTypes.ERROR:{
+            this.toastr.error(model.message, '')
+             break;
+           }
+
+           case NotificationTypes.WARNING:{
+            this.toastr.warning(model.message, '')
+             break;
+           }
+
+           case NotificationTypes.INFO:{
+            this.toastr.info(model.message, '')
+             break;
+           }
+       }
     }
 
-    public get(): Observable<Notifications>{
-        return this.Notifications$.asObservable()
+
+    public error(message: string){
+     this.Add({
+         message: message,
+         type: NotificationTypes.ERROR,
+         dismissible: true,
+         durationTime: 5
+     })
     }
 
+    public info(message: string){
+        this.Add({
+            message: message,
+            type: NotificationTypes.INFO,
+            dismissible: true,
+            durationTime: 5
+        })
+       }
+
+       
+    public warning(message: string){
+        this.Add({
+            message: message,
+            type: NotificationTypes.WARNING,
+            dismissible: true,
+            durationTime: 5
+        })
+       }
+
+       public success(message: string){
+        this.Add({
+            message: message,
+            type: NotificationTypes.SUCCESS,
+            dismissible: true,
+            durationTime: 5
+        })
+       }
 }
