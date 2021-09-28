@@ -1,0 +1,57 @@
+<p-table [value]="dataSource" [paginator]="true" [rows]="100" [showCurrentPageReport]="true" responsiveLayout="scroll"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50,100,200,300,500,1000]">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Status</th>
+            <th>Name</th>
+            <th>Name Space</th>
+            <th>Image</th>
+            <th>Availability</th>
+            <th>Date</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-element>
+        <tr>
+            <td>
+                <span class="badge badge-{{element.lastState?.state | phaseToBadge}}">
+                    {{element.lastState?.state}}
+                </span>
+                <span class="feedback text-{{element.lastState?.state | phaseToBadge}}" *ngIf="element.lastState?.state != 'Active'">
+                    {{element.lastState?.message}}
+                </span>
+            </td>
+            <td>
+                {{element?.metadata?.name}}
+            </td>
+            <td>
+                {{element?.metadata?.namespace}}
+            </td>
+        
+            <td>
+                <ng-container *ngIf="element?.spec?.template?.spec?.containers.length">
+                    <span *ngIf="element?.spec?.template?.spec?.containers.length == 1">
+                        {{ element?.spec?.template?.spec?.containers[0].image}}
+                    </span>
+                    <span *ngIf="element?.spec?.template?.spec?.containers.length > 1">
+                        {{element?.spec?.template?.spec?.containers[0].image}}
+                        +{{element?.spec?.template?.spec?.containers.length - 1}}
+                    </span>
+                </ng-container>
+            </td>
+            <td style="text-align: center;">
+                <div class="progress"  matTooltip="{{element?.status?.availableReplicas || 0}} / {{element?.status?.replicas}}">
+                    <div *ngIf="element?.status?.readyReplicas < element?.status?.replicas" class="progress-bar progress-bar-striped bg-success" role="progressbar"  [style.width]="element?.status?.availableReplicas /element?.status?.replicas * 100 + '%'" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-danger" role="progressbar"  [style.width]="element?.status?.unavailableReplicas /element?.status?.replicas * 100 + '%'" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar  bg-success" role="progressbar"  [style.width]="element?.status?.readyReplicas /element?.status?.replicas * 100 + '%'" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <span>
+                    {{element?.status?.availableReplicas || 0}} / {{element?.status?.replicas}}
+                </span>
+            </td>
+          <td>
+            {{element.metadata?.creationTimestamp | relativeTime}}
+          </td>
+         
+        </tr>
+    </ng-template>
+</p-table>
