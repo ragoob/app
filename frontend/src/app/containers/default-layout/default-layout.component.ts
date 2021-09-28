@@ -18,7 +18,7 @@ export class DefaultLayoutComponent implements OnInit {
   public navItems:INavData[] = navItems;
 
   ngOnInit(): void {
-    this.clusterService.result$.pipe(filter(res=> res != null))
+    this.clusterService.akaMenu$.pipe(filter(res=> res != null))
     .subscribe(res=> {
       this.pushClusterMenuItem(res)
     })

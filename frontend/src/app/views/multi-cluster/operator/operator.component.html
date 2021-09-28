@@ -6,7 +6,7 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <div class="form-group">
             <label>Select Clusters</label>
             <p-multiSelect [options]="clusters" [(ngModel)]="model.clusters" placeholder="Choose"
@@ -14,7 +14,7 @@
             </p-multiSelect>
           </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <div class="form-group">
             <label>Select Compontent Kind</label>
             <p-dropdown [options]="kinds" [showClear]="true" (onChange)="onKindChange()" [(ngModel)]="model.kinds"
@@ -23,12 +23,19 @@
           </div>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <div class="form-group">
             <label>Available actions</label>
             <p-dropdown [options]="actions" [showClear]="true" [disabled]="!model|| !model.kinds"
               [(ngModel)]="model.actions" placeholder="Choose" [showTransitionOptions]="'0ms'"
               [hideTransitionOptions]="'0ms'" [style]="{'width':'100%'}"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="col-lg-3" *ngIf="model.actions == 'ChangeScale'">
+          <div class="form-group">
+            <label>Replica set</label>
+            <input class="form-control" type="number" placeholder="Add replica count" [(ngModel)]="model.scaleCount" />
           </div>
         </div>
        
@@ -42,10 +49,10 @@
             <label>Match Selector Value</label>
             <div class="row">
               <div class="col-lg-6">
-                <input class="form-control" placeholder="Selector Key" [(ngModel)]="model.matchSelectorValue" />
+                <input class="form-control" placeholder="Selector Key" [(ngModel)]="model.matchSelectorKey" />
               </div>
               <div class="col-lg-6">
-                <input class="form-control" placeholder="Selector Value" [(ngModel)]="model.matchSelectorKey" />
+                <input class="form-control" placeholder="Selector Value" [(ngModel)]="model.matchSelectorValue" />
               </div>
             </div>
           </div>
@@ -65,10 +72,22 @@
           </div>
         </div>
       </div>
-      <button type="button" (click)="find()" class="btn btn-primary mb-2">Check Availability</button>
-
+      <button type="button" [disabled]="loading$ | async" (click)="find()" class="btn btn-primary mb-2">Check Availability</button>
+      <button type="button" [disabled]="!results" (click)="run()" class="btn btn-primary btn-success mb-2 ml-2">Run <i class="fa fa-play"></i></button>
+      <button type="button"  (click)="reset()" class="btn btn-primary btn-warning mb-2 ml-2">Reset <i class="fa fa-times"></i></button>
+      <mat-checkbox [(ngModel)]="model.showMatched" class="example-margin ml-5">Show Matched Only</mat-checkbox>
       <div class="row">
         <div class="col-lg-12">
+          <ng-container *ngFor="let item of  results | keyvalue">
+            <fieldset class="scheduler-border"  *ngIf="!model.showMatched || item.value.length > 0">
+              <legend class="scheduler-border"> {{item.key}}</legend>
+              <div class="row">
+                <div class="col-lg-12">
+                  <app-deployments *ngIf="model.kinds == 'Deployments'" [dataSource]="item.value"></app-deployments>
+                </div>
+              </div>
+          </fieldset>
+          </ng-container>
           
         </div>
       </div>

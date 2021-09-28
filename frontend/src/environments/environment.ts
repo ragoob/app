@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:8099',
-  ws: 'ws://localhost:8099',
+  baseUrl: 'http://104.210.210.9:8099',
+  ws: 'ws://104.210.210.9:8099',
   api: {
     k8s: '/connections',
     auth: '/auth',

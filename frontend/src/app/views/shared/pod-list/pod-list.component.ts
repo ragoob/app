@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { ReplaySubject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -21,7 +22,8 @@ export class PodListComponent implements OnInit {
      private util: ResourcesUtils,
       private eventService: RealTimeEventsService<Pods>,
       private confirmationService: ConfirmationService,
-      private notificationService: NotificationService
+      private notificationService: NotificationService,
+      private router: Router
 
      ) { }
   ngOnDestroy(): void {
@@ -42,6 +44,15 @@ export class PodListComponent implements OnInit {
       ).subscribe(e=> {
       this.load()
     })
+
+    this.router.events.subscribe((val) => {
+      if(val instanceof NavigationEnd){
+        if(this.service.clusterId() && this.service.clusterId() != ""){
+          this.load()
+        }
+       
+      }
+   });
    
     this.load()
   }

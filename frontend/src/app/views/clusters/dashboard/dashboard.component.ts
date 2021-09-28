@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { ClustersService } from 'src/app/core/services/clusters.service';
 
 @Component({
@@ -9,13 +9,17 @@ import { ClustersService } from 'src/app/core/services/clusters.service';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(public clusterService: ClustersService,private route: ActivatedRoute) { }
+  constructor(public clusterService: ClustersService,private router: Router) { }
 
   ngOnInit(): void {
-    this.route.params
-    .subscribe((params: Params) => {
+    this.clusterService.get()
+    this.router.events.subscribe((val) => {
+     if(val instanceof NavigationEnd){
       this.clusterService.get()
-    });  
+     }
+  });
+
+    
   }
 
 }

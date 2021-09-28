@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { observable, ReplaySubject } from 'rxjs';
 import { catchError, filter, map, takeUntil, tap } from 'rxjs/operators';
@@ -46,6 +46,15 @@ export class ListComponent   implements OnInit , AfterViewInit ,OnDestroy {
     .subscribe(c=> {
      this.load()
     })
+
+    this.router.events.subscribe((val) => {
+      if(val instanceof NavigationEnd){
+        if(this.nameSpaceService.clusterId() && this.nameSpaceService.clusterId() != ""){
+          this.load()
+        }
+        
+      }
+   });
 
     this.load()
     

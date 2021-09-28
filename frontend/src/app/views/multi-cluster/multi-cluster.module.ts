@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { OperatorComponent } from './operator/operator.component';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
+import { DeploymentsComponent } from './deployments/deployments.component';
 
 const routes: Routes = [
   {
@@ -16,7 +17,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    OperatorComponent
+    OperatorComponent,
+    DeploymentsComponent
   ],
   imports: [
     CommonModule,

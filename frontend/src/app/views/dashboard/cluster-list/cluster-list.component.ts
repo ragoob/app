@@ -16,28 +16,27 @@ import { environment } from 'src/environments/environment';
 })
 export class ClusterListComponent implements OnInit , AfterViewInit ,OnDestroy{
   destroyed$: ReplaySubject<boolean> = new ReplaySubject(1)
-  displayedColumns: string[] = ["isConnected","name","nodesCount","provider","totalCpuCores","totalMemory"];
-  dataSource = new MatTableDataSource<Clusters>([]);
+  dataSource: Clusters[] = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private changeDetectorRefs: ChangeDetectorRef,private clusterService: ClustersService,private healthCheckService: HealthCheckService<Clusters[]>) { }
+  constructor(private clusterService: ClustersService,private healthCheckService: HealthCheckService) { }
 
 
   ngOnInit(): void {
     this.healthCheckService.messages
     .pipe(takeUntil(this.destroyed$))
     .subscribe(msg=>{
-      this.dataSource = new MatTableDataSource<Clusters>(msg)
-      this.changeDetectorRefs.detectChanges();
+      if(msg && msg.data)
+       {
+        this.dataSource =msg.data
+       }
     })
     this.clusterService.result$
     .pipe(filter(res=> res != null),
      takeUntil(this.destroyed$)
     )
     .subscribe(res=> {
-      this.dataSource = new MatTableDataSource<Clusters>(res.data)
-      this.dataSource.paginator = this.paginator;
-      this.changeDetectorRefs.detectChanges();
+      this.dataSource =res.data
     })
    
   }
@@ -48,7 +47,7 @@ export class ClusterListComponent implements OnInit , AfterViewInit ,OnDestroy{
   }
   
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+    
   }
 
 }

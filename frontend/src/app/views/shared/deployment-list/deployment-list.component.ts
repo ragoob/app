@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { ReplaySubject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -42,6 +42,14 @@ export class DeploymentListComponent implements OnInit , AfterViewInit ,OnDestro
       ).subscribe(e=> {
       this.load()
     })
+
+    this.router.events.subscribe((val) => {
+      if(val instanceof NavigationEnd){
+        if(this.service.clusterId() && this.service.clusterId() != ""){
+          this.load()
+        }
+      }
+   });
    
     this.load()
   }

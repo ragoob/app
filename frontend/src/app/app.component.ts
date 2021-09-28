@@ -27,6 +27,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.clusterService.get()
+    .then(res=> this.clusterService.akaMenu$.next(res))
+
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;

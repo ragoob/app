@@ -4,20 +4,25 @@ import { BehaviorSubject } from 'rxjs';
 import { BASE_URL_TOKEN } from 'src/app/consts/config';
 import { environment } from 'src/environments/environment';
 import { ClusterResult } from '../models/clusters';
-import { AuthService } from './auth.service';
 import {map} from 'rxjs/operators'
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { BaseService } from './base.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ClustersService {
+export class ClustersService extends BaseService {
   public result$: BehaviorSubject<ClusterResult> = new BehaviorSubject(null)
-  constructor(private http: HttpClient, @Inject(BASE_URL_TOKEN) private baseUrl: string) {
-
+  public akaMenu$: BehaviorSubject<ClusterResult> = new BehaviorSubject(null)
+  constructor(protected router: Router, private http: HttpClient, @Inject(BASE_URL_TOKEN) private baseUrl: string) {
+    super(router)
   }
 
-  async get(): Promise<ClusterResult> {
-    return this.http.get<ClusterResult>(`${this.baseUrl}${environment.api.clusters}`)
+   get(): Promise<ClusterResult> {
+    let url = `${this.baseUrl}${environment.api.clusters}`
+    if(this.clusterId()){
+      url = `${url}/${this.clusterId()}`
+    }
+    return this.http.get<ClusterResult>(url)
     .pipe(map(res=> {
       this.result$.next(res)
       return res
@@ -25,5 +30,5 @@ export class ClustersService {
       .toPromise()
   }
 
-
+  
 }
