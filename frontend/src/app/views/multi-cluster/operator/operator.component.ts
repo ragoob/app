@@ -7,6 +7,7 @@ import { ClustersService } from 'src/app/core/services/clusters.service';
 import { DeploymentsService } from 'src/app/core/services/deployments.service';
 import { RealTimeEventsService } from 'src/app/core/services/events.realtime.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { PodsService } from 'src/app/core/services/pods.service';
 export interface multiClusterOperation {
   clusters?: string[],
   kinds?: string,
@@ -26,9 +27,10 @@ export interface multiClusterOperation {
   styleUrls: ['./operator.component.scss']
 })
 export class OperatorComponent implements OnInit {
+  private destory$: Subject<boolean> = new Subject()
   public loading$: Subject<boolean> = new Subject()
   public results: Map<string, Deployments[] | Pods[] | any[]>
-  public model: multiClusterOperation = { showMatched: true,scaleCount:0 }
+  public model: multiClusterOperation = { showMatched: true,scaleCount:0,subscribeToResult: true }
   public clusters: SelectItem[] = []
   public kinds: SelectItem[] = [{
     label: "Deployments",
@@ -54,7 +56,8 @@ export class OperatorComponent implements OnInit {
     private deploymentService: DeploymentsService,
     private resourcesUtils: ResourcesUtils,
     private notification: NotificationService,
-    private eventService: RealTimeEventsService<Deployments>
+    private eventService: RealTimeEventsService<Deployments | Pods>,
+    private podsService: PodsService
   ) { }
   ngOnInit(): void {
     this.clusterService.get()
@@ -94,9 +97,12 @@ export class OperatorComponent implements OnInit {
 
 
   public reset(){
-    this.model = { showMatched: true,scaleCount:0 }
+    this.model = { showMatched: true,scaleCount:0 ,subscribeToResult: true }
+    this.results = null
+    this.destory$.next(true)
+    this.destory$.complete()
   }
-  public run() {
+  public runDeployments() {
     if (this.model.subscribeToResult) {
       this.eventService.subscribe()
       this.eventService.messages
@@ -104,6 +110,7 @@ export class OperatorComponent implements OnInit {
           filter(e => !!e && e.Resource == ResourceTypes.RESOUCETYPE_DEPLOYMENTS
             && Array.from(this.results.keys()).includes(e.ClusterId)
           ),
+          takeUntil(this.destory$)
         ).subscribe(e => {
           this.getDeployments(e.ClusterId)
         })
@@ -133,6 +140,43 @@ export class OperatorComponent implements OnInit {
 
   }
 
+  public runPods() {
+    if (this.model.subscribeToResult) {
+      this.eventService.subscribe()
+      this.eventService.messages
+        .pipe(
+          filter(e => !!e && e.Resource == ResourceTypes.RESOUCETYPE_PODS
+            && Array.from(this.results.keys()).includes(e.ClusterId)
+          ),
+          takeUntil(this.destory$)
+        ).subscribe(e => {
+          this.getPods(e.ClusterId)
+        })
+    }
+    this.model.clusters.forEach(cl => {
+      this.results.get(cl)
+        .forEach((d: Pods) => {
+          switch (this.model.actions) {
+          
+            case 'Delete': {
+              this.podsService.delete(d.metadata.namespace, d.metadata.name, cl)
+              break
+            }
+          }
+
+        })
+    })
+
+  }
+
+  public run(){
+    if(this.model.kinds == 'Deployments'){
+      this.runDeployments()
+    }else{
+      this.runPods()
+    }
+  }
+
   private getDeployments(cluster: string) {
     this.deploymentService.getByClusterAndNameSpace(
       cluster, this.model.nameSpace, (this.model.matchSelectorKey && this.model.matchSelectorValue) ?
@@ -153,12 +197,37 @@ export class OperatorComponent implements OnInit {
       }
     })
   }
+
+  
+  private getPods(cluster: string) {
+    this.podsService.getByClusterAndNameSpace(
+      cluster, this.model.nameSpace, (this.model.matchSelectorKey && this.model.matchSelectorValue) ?
+      `selector=${this.model.matchSelectorKey}=${this.model.matchSelectorValue}` : ''
+    ).then(res => {
+      this.results.set(cluster, res.data.items)
+
+    }).catch(err => {
+      this.results.set(cluster, [])
+      this.notification.error(err)
+
+    }).finally(() => {
+      if (this.results.size == this.clusters.length) {
+        this.loading$.next(false)
+      }
+    })
+  }
+
   public find() {
     this.loading$.next(true)
     this.results = new Map()
     this.model.clusters
       .forEach(cl => {
-        this.getDeployments(cl)
+        if(this.model.kinds == 'Deployments'){
+          this.getDeployments(cl)
+        }else{
+          this.getPods(cl)
+        }
+       
       })
   }
 }

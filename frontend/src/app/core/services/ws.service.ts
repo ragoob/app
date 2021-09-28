@@ -16,7 +16,7 @@ export class WebSocketService<T> {
     let ws = new WebSocket(url);
     let observable = Observable.create((obs: Observer<MessageEvent>) => {
       ws.onopen = ()=>{
-        this.notification.info(`Socket connecting to ${url}`)
+        console.log(`Socket connecting to ${url}`)
       }
       ws.onmessage = obs.next.bind(obs);
       ws.onerror = (event)=> {
@@ -24,7 +24,7 @@ export class WebSocketService<T> {
         obs.error.bind(obs)
       };
       ws.onclose = (e)=> {
-      this.notification.warning(`Socket disconnected from ${url}`)
+     console.log(`Socket disconnected from ${url}`)
         obs.complete.bind(obs)
       };
       return ws.close.bind(ws);

@@ -17,6 +17,18 @@ export class PodsService extends BaseService{
      super(router)
  }
 
+ getByClusterAndNameSpace(clusterId?: string,nameSpace?: string,query?: string): Promise<ResourceResult<Pods>> {
+  const givenCluster = clusterId ? clusterId: this.clusterId();
+  const givenNameSpace = nameSpace? nameSpace: this.NameSpacesId()
+ return this.http.get<ResourceResult<Pods>>(`${this.baseUrl}${environment.api.k8s}/${givenCluster}/${givenNameSpace}${environment.api.pods}?${query}`)
+ .pipe(map(res=> {
+     this.result$.next(res)
+   return res
+ }))
+   .toPromise()
+
+}
+
  create(model: Pods,nameSpace: string): Promise<Pods> {
   return this.http.post<Pods>(`${this.baseUrl}${environment.api.k8s}/${this.clusterId()}/${nameSpace}${environment.api.pods}`,model)
   .pipe(map(res=> {
@@ -38,8 +50,11 @@ export class PodsService extends BaseService{
       .toPromise()
   }
 
-  delete(nameSpace: string, name: string): Promise<ResourceResult<Pods>> {
-    return this.http.delete<ResourceResult<Pods>>(`${this.baseUrl}${environment.api.k8s}/${this.clusterId()}/${nameSpace}${environment.api.pods}/${name}`)
+  delete(nameSpace: string, name: string,cluster?: string): Promise<ResourceResult<Pods>> {
+    if(!cluster){
+      cluster = this.clusterId()
+    }
+    return this.http.delete<ResourceResult<Pods>>(`${this.baseUrl}${environment.api.k8s}/${cluster}/${nameSpace}${environment.api.pods}/${name}`)
     .pipe(map(res=> {
         this.result$.next(res)
       return res
