@@ -23,7 +23,7 @@ export class ClusterUsageComparisonComponent implements OnInit {
   ];
   public mainChartLabels: string[] = [];
   public mainChartLegend = false;
-  public mainChartType = 'line';
+  public mainChartType = 'bar';
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true
@@ -58,7 +58,7 @@ export class ClusterUsageComparisonComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.clusterService.result$
+    this.clusterService.clusterResult$
     .pipe(filter(res=> res != null))
     .subscribe(res=> {
       this.mainChartLabels = res.data.map(c=> c.name)

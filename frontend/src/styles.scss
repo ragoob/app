@@ -73,3 +73,39 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mt-30{
   margin-top: 30px !important;
 }
+
+.hidden{
+  display: none;
+}
+
+p-dropdown.is-invalid:not(form) > div {
+  border-color: #dc3545;
+  
+}
+
+p-dropdown.is-invalid.ng-touched.ui-inputwrapper-focus:not(form) > div {
+  border-color: #dc3545;
+ 
+}
+
+p-dropdown.is-invalid.ng-untouched.ui-inputwrapper-focus:not(form) > div {
+  border-color: #dc3545;
+
+}
+
+p-multiselect.is-invalid:not(form) > div {
+  border-color: #dc3545;
+  
+}
+
+p-multiselect.is-invalid.ng-touched.ui-inputwrapper-focus:not(form) > div {
+  border-color: #dc3545;
+ 
+}
+
+p-multiselect.is-invalid.ng-untouched.ui-inputwrapper-focus:not(form) > div {
+  border-color: #dc3545;
+
+}
+
+

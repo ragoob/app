@@ -17,21 +17,22 @@ import { environment } from 'src/environments/environment';
 export class ClusterListComponent implements OnInit , AfterViewInit ,OnDestroy{
   destroyed$: ReplaySubject<boolean> = new ReplaySubject(1)
   dataSource: Clusters[] = [];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private clusterService: ClustersService,private healthCheckService: HealthCheckService) { }
 
 
   ngOnInit(): void {
+    this.healthCheckService.subscribe()
     this.healthCheckService.messages
     .pipe(takeUntil(this.destroyed$))
     .subscribe(msg=>{
       if(msg && msg.data)
        {
+         
         this.dataSource =msg.data
        }
     })
-    this.clusterService.result$
+    this.clusterService.clusterResult$
     .pipe(filter(res=> res != null),
      takeUntil(this.destroyed$)
     )

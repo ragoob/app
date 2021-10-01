@@ -8,6 +8,7 @@
             <th>Image</th>
             <th>Restart Count</th>
             <th>Date</th>
+            <th *ngIf="auth.hasPermission(['ReadWrite','ClusterManager']) | async"></th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-element>
@@ -41,7 +42,7 @@
           <td>
             {{element.metadata?.creationTimestamp | relativeTime}}
           </td>
-          <td>
+          <td *ngIf="auth.hasPermission(['ReadWrite','ClusterManager']) | async">
             <button (click)="delete(element)" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i>
             </button>
           </td>

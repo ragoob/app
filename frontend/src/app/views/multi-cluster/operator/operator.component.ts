@@ -3,6 +3,7 @@ import { SelectItem } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Deployments, Pods, ResourcesUtils, ResourceTypes } from 'src/app/core/models/resources.result';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { ClustersService } from 'src/app/core/services/clusters.service';
 import { DeploymentsService } from 'src/app/core/services/deployments.service';
 import { RealTimeEventsService } from 'src/app/core/services/events.realtime.service';
@@ -57,12 +58,18 @@ export class OperatorComponent implements OnInit {
     private resourcesUtils: ResourcesUtils,
     private notification: NotificationService,
     private eventService: RealTimeEventsService<Deployments | Pods>,
-    private podsService: PodsService
+    private podsService: PodsService,
+    private auth: AuthService
   ) { }
   ngOnInit(): void {
+    const currentUser = this.auth.currentUser()
     this.clusterService.get()
       .then(res => {
-        res.data.forEach(c => {
+        res.data
+        .filter(c=> c.users.findIndex(u=> u.userId == currentUser.userId && 
+           (u.permissons.includes('ClusterManager')) || u.permissons.includes('ReadWrite')) > -1 || currentUser.isAdmin
+          )
+        .forEach(c => {
           this.clusters.push({
             label: c.name,
             value: c.name

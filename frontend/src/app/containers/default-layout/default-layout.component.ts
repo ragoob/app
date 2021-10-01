@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 import { ClusterResult } from 'src/app/core/models/clusters';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ClustersService } from 'src/app/core/services/clusters.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
 import { navItems } from '../../_nav';
 
 @Component({
@@ -12,12 +13,17 @@ import { navItems } from '../../_nav';
   templateUrl: './default-layout.component.html'
 })
 export class DefaultLayoutComponent implements OnInit {
-  constructor(private auth: AuthService,private clusterService: ClustersService, private router: Router){}
+  constructor(private auth: AuthService,private clusterService: ClustersService, private router: Router,
+    public loader: LoaderService
+    ){}
   
   public sidebarMinimized = false;
   public navItems:INavData[] = navItems;
 
   ngOnInit(): void {
+    if(!this.auth.currentUser().isAdmin){
+      this.navItems = this.navItems.filter(c=> c.name != 'Management')
+    }
     this.clusterService.akaMenu$.pipe(filter(res=> res != null))
     .subscribe(res=> {
       this.pushClusterMenuItem(res)
@@ -33,7 +39,10 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   private pushClusterMenuItem(res: ClusterResult){
-    this.navItems[1].children = res.data.map(d=> {
+    const currentUser = this.auth.currentUser()
+    this.navItems[1].children = res.data
+    .filter(c=> currentUser.isAdmin || c.users.findIndex(u=> u.userId == currentUser.userId) > -1)
+    .map(d=> {
       return {
         name: d.name,
         url: `/connections/${d.name}`,

@@ -5,6 +5,7 @@ import { ReplaySubject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { NotificationTypes } from 'src/app/core/models/notifications';
 import { Pods, ResourcesUtils, ResourceTypes } from 'src/app/core/models/resources.result';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { RealTimeEventsService } from 'src/app/core/services/events.realtime.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { PodsService } from 'src/app/core/services/pods.service';
@@ -23,7 +24,8 @@ export class PodListComponent implements OnInit {
       private eventService: RealTimeEventsService<Pods>,
       private confirmationService: ConfirmationService,
       private notificationService: NotificationService,
-      private router: Router
+      private router: Router,
+      public auth: AuthService
 
      ) { }
   ngOnDestroy(): void {

@@ -48,12 +48,13 @@ import { AuthService } from './core/services/auth.service';
 import { AuthGuard } from './core/guards/auth.guard';
 import { BASE_URL_TOKEN } from './consts/config';
 import { environment } from 'src/environments/environment';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { WebSocketService } from './core/services/ws.service';
 import { SharedModule } from './views/shared/shared.module';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { ToastrModule } from 'ngx-toastr';
+import { LoaderInterceptor } from './core/interceptors/http-loader-interceptor';
 
 @NgModule({
   imports: [
@@ -87,9 +88,14 @@ import { ToastrModule } from 'ngx-toastr';
       provide: LocationStrategy,
       useClass: HashLocationStrategy
     },
+    // {
+    //   provide: HTTP_INTERCEPTORS, 
+    //   useClass: HttpInterceptorService, 
+    //   multi: true
+    // },
     {
       provide: HTTP_INTERCEPTORS, 
-      useClass: HttpInterceptorService, 
+      useClass: LoaderInterceptor, 
       multi: true
     },
     {

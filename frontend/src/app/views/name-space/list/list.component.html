@@ -5,9 +5,9 @@
       Name Spaces List
     </div>
     <div class="card-body">
-      <p-toolbar styleClass="p-mb-4">
+      <p-toolbar styleClass="p-mb-4" *ngIf="auth.hasPermission(['ReadWrite','ClusterManager']) | async">
       <ng-template pTemplate="left">
-        <button type="button" class="btn btn-primary" (click)="addNew()">Add New</button>
+        <button type="button" class="btn btn-primary"  (click)="addNew()">Add New</button>
     </ng-template>
   </p-toolbar>
       <div class="row">
@@ -22,7 +22,7 @@
                   <th>Status</th>
                   <th>Name</th>
                   <th>Date</th>
-                  <th></th>
+                  <th *ngIf="auth.hasPermission(['ReadWrite','ClusterManager']) | async"></th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-element>
@@ -41,7 +41,7 @@
                     
                     {{element.metadata?.creationTimestamp | relativeTime}}
                   </td>
-                  <td>
+                  <td *ngIf="auth.hasPermission(['ReadWrite','ClusterManager']) | async">
                     <button type="button" class="btn btn-danger" (click)="delete(element?.metadata?.name)"><i class="fa fa-trash"></i></button>
 
                   </td>

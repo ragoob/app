@@ -21,6 +21,7 @@ export class OverViewCardsComponent implements OnInit,OnDestroy{
     this.destroyed$.complete()
   }
   ngOnInit(): void {
+    this.healthCheckService.subscribe()
     this.healthCheckService.messages
     .pipe(takeUntil(this.destroyed$))
     .subscribe(msg=>{

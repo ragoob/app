@@ -42,6 +42,10 @@ export const routes: Routes = [
       {
         path: 'connections/:cluserId',
         loadChildren: () => import('./views/clusters/clusters.module').then(m => m.ClustersModule)
+      },
+      {
+        path: 'managment',
+        loadChildren: () => import('./views/managment/managment.module').then(m => m.ManagmentModule)
       }
     ]
   },

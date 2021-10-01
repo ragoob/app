@@ -22,13 +22,15 @@
   </ul>
 </app-header>
 <div class="app-body">
+ 
+
   <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized" (minimizedChange)="toggleMinimize($event)">
     <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized"></app-sidebar-nav>
     <app-sidebar-minimizer></app-sidebar-minimizer>
   </app-sidebar>
   <!-- Main content -->
   <main class="main">
-   
+    <app-loader></app-loader>
     <app-core-breadcrumb></app-core-breadcrumb>
   
     <div class="container-fluid">

@@ -17,7 +17,8 @@ export const environment = {
     pods: '/pods',
     ingresses: '/ingress',
     secrets: '/secrets',
-    events: '/events'
+    events: '/events',
+    users: '/users',
   },
   sockets: {
       health: '/healthaknowlegment',

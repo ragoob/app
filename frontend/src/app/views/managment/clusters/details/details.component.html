@@ -1,0 +1,88 @@
+<div class="card">
+    <div class="card-header">
+     {{title}}
+    </div>
+    <div class="card-body">
+      <form  [formGroup]="myForm">
+        <input type="hidden" class="form-control" id="id" formControlName="id" >
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text"
+          [ngClass]="{
+            'is-invalid':
+            myForm.controls['name'].invalid &&
+              (myForm.controls['name'].dirty ||
+              myForm.controls['name'].touched) && submitting
+          }"
+           class="form-control" id="name" formControlName="name"  placeholder="Enter Name" [attr.disabled]="id ? true: null">
+        </div>
+       <div class="form-group" *ngIf="id">
+        <label for="name">Run the following script on your cluster</label>
+        <div class="input-group mb-3" >
+          <input type="text" class="form-control" id="registerScript" formControlName="registerScript" readonly>
+          <div class="input-group-append">
+            <span class="input-group-text" [cdkCopyToClipboard]="myForm.controls['registerScript'].value" style="cursor: pointer;" id="basic-addon2">Copy</span>
+          </div>
+        </div>
+      
+       </div>
+        
+       
+        <div class="form-group" formArrayName="users">
+          <table class="table">
+            <thead>
+              <tr>
+                <th colspan="3">
+                  <button class="btn btn-success" (click)="addNewUser()">Add Users <i class="fa fa-plus"></i></button> 
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container  *ngFor="let user of usersFormArr.controls; let j=index">
+                <tr  [formGroupName]="j">
+                  <td>
+                   <p-dropdown [filter]="true" 
+                   [ngClass]="{
+                    'is-invalid':
+                    user.controls['userId'].invalid &&
+                      (user.controls['userId'].dirty ||
+                      user.controls['userId'].touched) && submitting
+                  }"
+                   [showClear]="true" placeholder="Select user"  [options]="users"  formControlName="userId" [style]="{'width':'100%'}"></p-dropdown>
+                  </td>
+                  <td>
+                   <p-multiSelect
+                   
+                   [ngClass]="{
+                    'is-invalid':
+                    user.controls['permissons'].invalid &&
+                      (user.controls['permissons'].dirty ||
+                      user.controls['permissons'].touched) && submitting
+                  }"
+                   [options]="permissions"  formControlName="permissons" placeholder="Select permissons" [style]="{'width':'100%'}"></p-multiSelect>
+   
+                  </td>
+                  <td>
+                   <button class="btn btn-danger" (click)="deleteUser(j)"><i class="fa fa-trash"></i></button>
+                  </td>
+                 </tr>
+              </ng-container>
+              
+            </tbody>
+          </table>
+        </div>
+      
+        <button type="button" (click)="Save()" class="btn btn-primary">Save Changes <i class="fa fa-floppy-o" aria-hidden="true"></i>
+         
+        </button>
+        <button type="button" (click)="SaveAndContinue()" class="btn btn-success ml-3">Save and Continue <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+
+        <button type="button" (click)="Delete()"  *ngIf="id" class="btn btn-danger ml-3">Delete <i class="fa fa-trash" aria-hidden="true"></i></button>
+
+        <button type="button" (click)="Back()"  class="btn btn-info ml-3">Back</button>
+      </form>
+    
+    </div>
+  </div>
+
+  <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

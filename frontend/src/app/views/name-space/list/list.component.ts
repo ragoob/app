@@ -12,6 +12,7 @@ import { DialogData } from 'src/app/core/models/dialog-data';
 import { EventStream } from 'src/app/core/models/event-stream';
 import { NotificationTypes } from 'src/app/core/models/notifications';
 import { EventsTypes, NameSpace, ResourceTypes } from 'src/app/core/models/resources.result';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { RealTimeEventsService } from 'src/app/core/services/events.realtime.service';
 import { NameSpaceService } from 'src/app/core/services/namespace.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -26,12 +27,12 @@ export class ListComponent   implements OnInit , AfterViewInit ,OnDestroy {
   destroyed$: ReplaySubject<boolean> = new ReplaySubject(1)
   displayedColumns: string[] = ["state","name","date"];
   public dataSource:NameSpace[] = []
-
-  constructor(private nameSpaceService: NameSpaceService,
+  constructor(public nameSpaceService: NameSpaceService,
     private router:Router,public dialog: MatDialog,
     private eventService: RealTimeEventsService<NameSpace>,
     private confirmationService: ConfirmationService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    public auth: AuthService
   
     ) { 
     

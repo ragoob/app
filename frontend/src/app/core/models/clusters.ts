@@ -14,6 +14,7 @@ export class Clusters {
     metrics: ClusterMetrics
     isConnected: boolean
     lastSyncMessage: string
+    registerScript: string
 }
 
 export class ClusterPermissons {

@@ -6,6 +6,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { EventStream } from 'src/app/core/models/event-stream';
 import { NotificationTypes } from 'src/app/core/models/notifications';
 import { Deployments, EventsTypes, ResourcesUtils, ResourceTypes } from 'src/app/core/models/resources.result';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { DeploymentsService } from 'src/app/core/services/deployments.service';
 import { RealTimeEventsService } from 'src/app/core/services/events.realtime.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -23,7 +24,8 @@ export class DeploymentListComponent implements OnInit , AfterViewInit ,OnDestro
       private eventService: RealTimeEventsService<Deployments>,
       private confirmationService: ConfirmationService,
       private notificationService: NotificationService,
-      private router: Router
+      private router: Router,
+      public auth: AuthService
 
      ) { }
   ngOnDestroy(): void {

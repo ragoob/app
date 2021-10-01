@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Pods } from 'src/app/core/models/resources.result';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { PodsService } from 'src/app/core/services/pods.service';
 import { DeploymentsService } from '../../../core/services/deployments.service';
 import { FileParserService } from '../../../core/services/file.service';
@@ -14,7 +15,7 @@ import { LoadFromYamlFormComponent } from '../../shared/load-from-yaml-form/load
 })
 export class ListComponent implements OnInit {
   constructor(private fileService: FileParserService,public dialog: MatDialog,
-    private podService: PodsService, private notification: NotificationService) { }
+    private podService: PodsService, private notification: NotificationService, public auth: AuthService) { }
 
  ngOnInit(): void {
  }
