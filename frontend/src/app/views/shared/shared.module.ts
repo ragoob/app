@@ -32,10 +32,13 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { LoaderComponent } from './loader/loader.component';
+import { IngressListComponent } from './ingress-list/ingress-list.component';
+import { ServiceListComponent } from './service-list/service-list.component';
 
 @NgModule({
   declarations: [OverViewCardsComponent, MbToGbPipe, PercentageToProgressColorPipe, RelativeTimeFilterPipe,
-    CompontentsOverViewComponent, ClusterEventsComponent, DynamicFormComponent, PhaseToBadge, DeploymentListComponent, BreadcrumbComponent, LoadFromYamlFormComponent, PodListComponent, LoaderComponent],
+    CompontentsOverViewComponent, ClusterEventsComponent, DynamicFormComponent, PhaseToBadge, DeploymentListComponent,
+    BreadcrumbComponent, LoadFromYamlFormComponent, PodListComponent, IngressListComponent, ServiceListComponent, LoaderComponent],
   imports: [
     CommonModule,
     MatTableModule,
@@ -62,13 +65,12 @@ import { LoaderComponent } from './loader/loader.component';
 
   ],
   providers: [ConfirmationService],
-  exports: [AccordionModule, TableModule, MatTableModule, MatPaginatorModule, MatDialogModule,
+  exports: [AccordionModule, TableModule, MatTableModule, MatPaginatorModule, MatDialogModule, ReactiveFormsModule,
     OverViewCardsComponent, MbToGbPipe, PercentageToProgressColorPipe, RelativeTimeFilterPipe
     , CompontentsOverViewComponent, ClusterEventsComponent, BreadcrumbComponent,
     PhaseToBadge, DeploymentListComponent, MatTooltipModule, MatTabsModule,
-    ToolbarModule, ConfirmDialogModule, DropdownModule, MatMenuModule, MatButtonModule, MatIconModule,
-    PodListComponent, MultiSelectModule, MatCheckboxModule, MatProgressBarModule, LoaderComponent, ReactiveFormsModule,
-    FormsModule],
+    ToolbarModule, ConfirmDialogModule, DropdownModule, MatMenuModule, MatButtonModule, MatIconModule, PodListComponent, IngressListComponent, ServiceListComponent,
+    LoaderComponent, MultiSelectModule, FormsModule, MatCheckboxModule],
   entryComponents: [OverViewCardsComponent, CompontentsOverViewComponent]
 })
 export class SharedModule { }

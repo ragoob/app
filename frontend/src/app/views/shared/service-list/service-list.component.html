@@ -1,0 +1,34 @@
+<p-table [value]="dataSource" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Name</th>
+            <th *ngIf="!service.NameSpacesId() || service.NameSpacesId()== 'all'">NameSpace</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-element>
+        <tr>
+            <td>
+                <a href="javascript:;" >
+                    {{element?.metadata?.name}}
+                </a>
+            </td>
+            <td *ngIf="!service.NameSpacesId() || service.NameSpacesId()== 'all'">
+                {{element?.metadata?.namespace}}
+            </td>
+            <td>
+                {{element.metadata?.creationTimestamp | relativeTime}}
+            </td>
+            <td>
+                <button mat-button [matMenuTriggerFor]="menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button (click)="delete(element)" mat-menu-item>Delete</button>
+                </mat-menu>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

@@ -35,6 +35,22 @@ const routes: Routes = [
       title: 'Deployments'
     },
     loadChildren: () => import('../pods/pods.module').then(m => m.PodsModule)
+  },
+
+  {
+    path: 'namespaces/:id/ingresses',
+    data: {
+      title: 'Ingresses'
+    },
+    loadChildren: () => import('../ingresses/ingresses.module').then(m => m.IngressesModule)
+  },
+
+  {
+    path: 'namespaces/:id/services',
+    data: {
+      title: 'services'
+    },
+    loadChildren: () => import('../services/services.module').then(m => m.ServicesModule)
   }
 ];
 
