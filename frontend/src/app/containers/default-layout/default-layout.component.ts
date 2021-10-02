@@ -40,6 +40,7 @@ export class DefaultLayoutComponent implements OnInit {
 
   private pushClusterMenuItem(res: ClusterResult){
     const currentUser = this.auth.currentUser()
+    this.navItems[1].badge.text = `  ${res.data.length}`;
     this.navItems[1].children = res.data
     .filter(c=> currentUser.isAdmin || c.users.findIndex(u=> u.userId == currentUser.userId) > -1)
     .map(d=> {

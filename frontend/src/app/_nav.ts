@@ -9,7 +9,12 @@ export const navItems: INavData[] = [
   {
     name: 'connections',
     url: '/icons',
-    icon: 'icon-star',
+    icon: 'fa fa-cloud',
+    badge: {
+      text: '',
+      variant: 'primary',
+      class: '',
+    },
     children: [
      
     ]
