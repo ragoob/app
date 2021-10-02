@@ -5,8 +5,8 @@
       Ingresses List
       </div>
       <div class="card-body">
-        <p-toolbar styleClass="p-mb-4">
-        <ng-template pTemplate="left">
+        <p-toolbar styleClass="p-mb-4" *ngIf="auth.hasPermission(['ReadWrite','ClusterManager']) | async">
+          <ng-template pTemplate="left">
           <button type="button" class="btn btn-primary" (click)="addNew()">Create From Yaml</button>
       </ng-template>
         </p-toolbar>

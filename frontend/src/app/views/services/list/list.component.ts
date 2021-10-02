@@ -5,6 +5,7 @@ import { ServicesService } from 'src/app/core/services/services.service';
 import { FileParserService } from '../../../core/services/file.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import { LoadFromYamlFormComponent } from '../../shared/load-from-yaml-form/load-from-yaml-form.component';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-list',
@@ -13,7 +14,7 @@ import { LoadFromYamlFormComponent } from '../../shared/load-from-yaml-form/load
 })
 export class ListComponent implements OnInit {
   constructor(private fileService: FileParserService, public dialog: MatDialog,
-    private servicesService: ServicesService, private notification: NotificationService) { }
+    private servicesService: ServicesService, private notification: NotificationService, public auth: AuthService) { }
 
   ngOnInit(): void {
   }

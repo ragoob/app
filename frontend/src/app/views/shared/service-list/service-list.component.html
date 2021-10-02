@@ -5,7 +5,7 @@
             <th>Name</th>
             <th *ngIf="!service.NameSpacesId() || service.NameSpacesId()== 'all'">NameSpace</th>
             <th>Date</th>
-            <th>Action</th>
+            <th *ngIf="auth.hasPermission(['ReadWrite','ClusterManager']) | async">Action</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-element>
@@ -21,7 +21,7 @@
             <td>
                 {{element.metadata?.creationTimestamp | relativeTime}}
             </td>
-            <td>
+            <td *ngIf="auth.hasPermission(['ReadWrite','ClusterManager']) | async">
                 <button mat-button [matMenuTriggerFor]="menu">
                     <mat-icon>more_vert</mat-icon>
                 </button>

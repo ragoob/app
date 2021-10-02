@@ -3,11 +3,11 @@ import { ConfirmationService } from 'primeng/api';
 import { ReplaySubject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { NotificationTypes } from 'src/app/core/models/notifications';
-import { Ingresses, ResourcesUtils, ResourceTypes } from 'src/app/core/models/resources.result';
+import { Ingresses, ResourceTypes } from 'src/app/core/models/resources.result';
 import { RealTimeEventsService } from '../../../../app/core/services/events.realtime.service';
 import { IngressesService } from 'src/app/core/services/ingresses.service';
 import { NotificationService } from '../../../../app/core/services/notification.service';
-import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-ingress-list',
@@ -21,7 +21,7 @@ export class IngressListComponent implements OnInit {
       private eventService: RealTimeEventsService<any>,
       private confirmationService: ConfirmationService,
       private notificationService: NotificationService,
-      private router: Router
+      private auth: AuthService
 
      ) { }
   ngOnDestroy(): void {

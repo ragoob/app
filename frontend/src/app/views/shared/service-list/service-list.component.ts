@@ -7,7 +7,7 @@ import { Services, ResourceTypes } from 'src/app/core/models/resources.result';
 import { RealTimeEventsService } from '../../../../app/core/services/events.realtime.service';
 import { ServicesService } from 'src/app/core/services/services.service';
 import { NotificationService } from '../../../../app/core/services/notification.service';
-import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-service-list',
@@ -21,7 +21,7 @@ export class ServiceListComponent implements OnInit {
       private eventService: RealTimeEventsService<any>,
       private confirmationService: ConfirmationService,
       private notificationService: NotificationService,
-      private router: Router
+      public auth: AuthService
 
      ) { }
   ngOnDestroy(): void {
