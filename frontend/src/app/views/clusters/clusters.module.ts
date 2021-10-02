@@ -51,6 +51,13 @@ const routes: Routes = [
       title: 'services'
     },
     loadChildren: () => import('../services/services.module').then(m => m.ServicesModule)
+  },
+  {
+    path: 'namespaces/:id/secrets',
+    data: {
+      title: 'Secrets'
+    },
+    loadChildren: () => import('../secrets/secrets.module').then(m => m.SecrestsModule)
   }
 ];
 

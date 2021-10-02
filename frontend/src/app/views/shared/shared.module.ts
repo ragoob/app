@@ -34,11 +34,13 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { LoaderComponent } from './loader/loader.component';
 import { IngressListComponent } from './ingress-list/ingress-list.component';
 import { ServiceListComponent } from './service-list/service-list.component';
+import {SecretListComponent} from './secret-list/secret-list.component';
 
 @NgModule({
   declarations: [OverViewCardsComponent, MbToGbPipe, PercentageToProgressColorPipe, RelativeTimeFilterPipe,
     CompontentsOverViewComponent, ClusterEventsComponent, DynamicFormComponent, PhaseToBadge, DeploymentListComponent,
-    BreadcrumbComponent, LoadFromYamlFormComponent, PodListComponent, IngressListComponent, ServiceListComponent, LoaderComponent],
+    BreadcrumbComponent, LoadFromYamlFormComponent, PodListComponent, IngressListComponent, ServiceListComponent, LoaderComponent, SecretListComponent],
+
   imports: [
     CommonModule,
     MatTableModule,
@@ -70,7 +72,7 @@ import { ServiceListComponent } from './service-list/service-list.component';
     , CompontentsOverViewComponent, ClusterEventsComponent, BreadcrumbComponent,
     PhaseToBadge, DeploymentListComponent, MatTooltipModule, MatTabsModule,
     ToolbarModule, ConfirmDialogModule, DropdownModule, MatMenuModule, MatButtonModule, MatIconModule, PodListComponent, IngressListComponent, ServiceListComponent,
-    LoaderComponent, MultiSelectModule, FormsModule, MatCheckboxModule],
+    LoaderComponent, MultiSelectModule, FormsModule, MatCheckboxModule,SecretListComponent],
   entryComponents: [OverViewCardsComponent, CompontentsOverViewComponent]
 })
 export class SharedModule { }
