@@ -25,4 +25,24 @@ export class SecretsService extends BaseService{
       .toPromise()
 
   }
+
+  create(model: Secrets,nameSpace: string): Promise<Secrets> {
+
+    return this.http.post<Secrets>(`${this.baseUrl}${environment.api.k8s}/${this.clusterId()}/${nameSpace}${environment.api.secrets}`,model)
+    .pipe(map(res=> {
+      return res
+    }))
+      .toPromise()
+  }
+
+  delete(nameSpace: string,name: string, clusterId?: string): Promise<Secrets> {
+    if(!clusterId){
+      clusterId = this.clusterId();
+    }
+    return this.http.delete<Secrets>(`${this.baseUrl}${environment.api.k8s}/${clusterId}/${nameSpace}${environment.api.secrets}/${name}`)
+    .pipe(map(res=> {
+      return res
+    }))
+      .toPromise()
+  }
 }
