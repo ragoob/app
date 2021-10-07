@@ -10,6 +10,13 @@ const routes: Routes = [
       title: 'Clusters'
     },
     loadChildren: () => import('../managment/clusters/clusters.module').then(m => m.ClustersModule)
+  },
+  {
+    path: 'users',
+    data: {
+      title: 'Users'
+    },
+    loadChildren: () => import('../managment/users/users.module').then(m => m.UsersModule)
   }
 ];
 

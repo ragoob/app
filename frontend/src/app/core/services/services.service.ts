@@ -19,6 +19,9 @@ export class ServicesService extends BaseService{
  async get(): Promise<ResourceResult<Services>> {
     return this.http.get<ResourceResult<Services>>(`${this.baseUrl}${environment.api.k8s}/${this.clusterId()}/${this.NameSpacesId()}${environment.api.services}`)
     .pipe(map(res=> {
+      res.data.items  = res.data.items.sort((a,b)=> {
+        return a.metadata.name.localeCompare(b.metadata.name)
+      })
         this.result$.next(res)
       return res
     }))

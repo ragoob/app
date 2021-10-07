@@ -1,0 +1,50 @@
+<div class="card">
+    <div class="card-header">
+     {{title}}
+    </div>
+    <div class="card-body">
+      <form  [formGroup]="myForm">
+        <input type="hidden" class="form-control" id="userId" formControlName="userId" >
+        <div class="form-group">
+          <label for="userName">User Name</label>
+          <input type="text"
+          [ngClass]="{
+            'is-invalid':
+            myForm.controls['userName'].invalid &&
+              (myForm.controls['userName'].dirty ||
+              myForm.controls['userName'].touched) && submitting
+          }"
+           class="form-control" id="userName" formControlName="userName"  placeholder="Enter User Name" [attr.disabled]="userId ? true: null">
+        </div>
+    
+        <div class="form-group">
+            <label for="Password">PassWord</label>
+            <input type="{{userId ? 'password' : 'text'}}"
+            [ngClass]="{
+              'is-invalid':
+              myForm.controls['Password'].invalid &&
+                (myForm.controls['Password'].dirty ||
+                myForm.controls['Password'].touched) && submitting
+            }"
+             class="form-control" id="Password" formControlName="Password"  placeholder="{{userId ? '***********' : 'Enter Password'}}" [attr.disabled]="userId ? true: null">
+          </div>
+      
+        <div class="form-group">
+          <mat-checkbox class="example-margin" formControlName="isAdmin">Is Admin</mat-checkbox>
+        </div>
+
+        <button type="button" (click)="Save()" class="btn btn-primary">Save Changes <i class="fa fa-floppy-o" aria-hidden="true"></i>
+         
+        </button>
+        <button type="button"   (click)="SaveAndContinue()" class="btn btn-success ml-3">Save and Continue <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+
+        <button type="button" (click)="Delete()"  *ngIf="userId" class="btn btn-danger ml-3">Delete <i class="fa fa-trash" aria-hidden="true"></i></button>
+
+        
+        <button type="button" (click)="Back()"  class="btn btn-info ml-3">Back</button>
+      </form>
+    
+    </div>
+  </div>
+
+  <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

@@ -21,7 +21,7 @@ export class ClustersService extends BaseService {
 
   getSelectedCluster(name?: string) : Observable<Clusters>{
     return this.clusterResult$
-    .pipe(filter(res=> res.data.findIndex(c=> c.name == (name ? name :this.clusterId())) > -1),
+    .pipe(filter(res=> res != null && res.data.findIndex(c=> c.name == (name ? name :this.clusterId())) > -1),
      map(res=> res.data[0])
     )
     

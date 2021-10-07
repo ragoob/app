@@ -39,11 +39,6 @@ export const navItems: INavData[] = [
         name: 'clusters',
         url: '/managment/clusters',
         icon: 'icon-bell'
-      },
-      {
-        name: 'Settings',
-        url: '/managment/settings',
-        icon: 'icon-settings'
       }
     ]
   }

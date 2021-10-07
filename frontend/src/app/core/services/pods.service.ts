@@ -22,7 +22,11 @@ export class PodsService extends BaseService{
   const givenNameSpace = nameSpace? nameSpace: this.NameSpacesId()
  return this.http.get<ResourceResult<Pods>>(`${this.baseUrl}${environment.api.k8s}/${givenCluster}/${givenNameSpace}${environment.api.pods}?${query}`)
  .pipe(map(res=> {
+  res.data.items  = res.data.items.sort((a,b)=> {
+    return a.metadata.name.localeCompare(b.metadata.name)
+  })
      this.result$.next(res)
+    
    return res
  }))
    .toPromise()
@@ -44,7 +48,11 @@ export class PodsService extends BaseService{
     }
     return this.http.get<ResourceResult<Pods>>(url)
     .pipe(map(res=> {
+      res.data.items  = res.data.items.sort((a,b)=> {
+        return a.metadata.name.localeCompare(b.metadata.name)
+      })
         this.result$.next(res)
+       
       return res
     }))
       .toPromise()

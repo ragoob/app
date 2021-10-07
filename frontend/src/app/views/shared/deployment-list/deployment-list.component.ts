@@ -65,7 +65,18 @@ export class DeploymentListComponent implements OnInit , AfterViewInit ,OnDestro
   }
 
 
+  public scale(model: Deployments){
+    const scaleCount = model.status?.replicas  ? model.status?.replicas + 1 : 1
+    this.service.update(model, model.metadata.namespace,`scale=${scaleCount}`)
+    
+  }
+  public descale(model: Deployments){
+    const scaleCount = model.status?.replicas  ? model.status?.replicas - 1 : 0
+    this.service.update(model, model.metadata.namespace,`scale=${scaleCount}`)
+    
+  }
 
+  //
 public redeploy(model: Deployments){
   this.service.update(model,model.metadata.namespace,'restart=1')
 }

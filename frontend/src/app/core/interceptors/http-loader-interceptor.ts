@@ -70,9 +70,20 @@ export class LoaderInterceptor implements HttpInterceptor {
         this.router.navigate(["login"])
         return
       }
+      if(err.status == 404){
+        this.notificationService.Add({
+          type: NotificationTypes.ERROR,
+          message: 'Object Not found',
+          dismissible: true
+          
+       })
+
+       return
+      }
+     
       this.notificationService.Add({
         type: NotificationTypes.ERROR,
-        message: typeof(err.error) == 'string' ?  err.error: err.error.text,
+        message: typeof(err.error) == 'string' ?  err.error: err.error?  err.error.text : err,
         dismissible: true
         
      })

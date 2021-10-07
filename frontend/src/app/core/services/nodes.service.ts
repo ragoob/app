@@ -19,6 +19,9 @@ export class NodesService  extends BaseService{
  async get(): Promise<Nodes[]> {
     return this.http.get<Nodes[]>(`${this.baseUrl}${environment.api.k8s}/${this.clusterId()}//metrics/Nodes`)
     .pipe(map(res=> {
+      res  = res.sort((a,b)=> {
+        return a.metadata.name.localeCompare(b.metadata.name)
+      })
         this.result$.next(res)
       return res
     }))

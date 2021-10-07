@@ -19,7 +19,11 @@ export class SecretsService extends BaseService{
  async get(): Promise<ResourceResult<Secrets>> {
     return this.http.get<ResourceResult<Secrets>>(`${this.baseUrl}${environment.api.k8s}/${this.clusterId()}/${this.NameSpacesId()}${environment.api.secrets}`)
     .pipe(map(res=> {
+      res.data.items  = res.data.items.sort((a,b)=> {
+        return a.metadata.name.localeCompare(b.metadata.name)
+      })
         this.result$.next(res)
+        
       return res
     }))
       .toPromise()
@@ -30,6 +34,7 @@ export class SecretsService extends BaseService{
 
     return this.http.post<Secrets>(`${this.baseUrl}${environment.api.k8s}/${this.clusterId()}/${nameSpace}${environment.api.secrets}`,model)
     .pipe(map(res=> {
+      
       return res
     }))
       .toPromise()

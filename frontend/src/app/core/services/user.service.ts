@@ -24,4 +24,28 @@ export class UserService{
       return this.http.get<User[]>(url)
         .toPromise()
     }
+
+    create(model: User): Promise<any> {
+      let url = `${this.baseUrl}${environment.api.users}`
+      return this.http.post<any>(url,model)
+        .toPromise()
+    }
+
+    delete(userName: string): Promise<any> {
+      let url = `${this.baseUrl}${environment.api.users}/${userName}`
+      return this.http.delete<any>(url)
+        .toPromise()
+    }
+
+    changePassword(model: User): Promise<any> {
+      let url = `${this.baseUrl}${environment.api.users}/changePassword`
+      return this.http.put<any>(url,model)
+        .toPromise()
+    }
+
+    update(model: User): Promise<any> {
+      let url = `${this.baseUrl}${environment.api.users}/`
+      return this.http.put<any>(url,model)
+        .toPromise()
+    }
 }

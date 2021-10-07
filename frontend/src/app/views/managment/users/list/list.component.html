@@ -1,0 +1,52 @@
+<div class="card">
+    <div class="card-header">
+  
+      Users List
+    </div>
+    <div class="card-body">
+      <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+          <button type="button" class="btn btn-primary" *ngIf="auth.currentUser().isAdmin" (click)="addNew()">Register New User</button>
+      </ng-template>
+        </p-toolbar>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="mat-elevation-z8">
+    
+            <p-table [value]="dataSource" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+              responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [rowsPerPageOptions]="[10,25,50]">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Name</th>
+                  <th>Admin ?</th>
+                  <th></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-element>
+                <tr>
+                  
+                  <td>
+                    {{element.userName}}
+                  </td>
+                 
+                  <td>
+                    <mat-checkbox class="example-margin" [disabled]="true" [checked]="element.isAdmin"></mat-checkbox>
+
+                  </td>
+                  <td>
+                    <a  *ngIf="auth.currentUser().isAdmin" [routerLink]="['details',element.userName]" routerLinkActive="router-link-active">Edit</a>
+                  </td>
+  
+                </tr>
+              </ng-template>
+            </p-table>
+  
+  
+  
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>

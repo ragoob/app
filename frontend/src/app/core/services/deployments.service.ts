@@ -21,7 +21,11 @@ export class DeploymentsService extends  BaseService{
   const givenNameSpace = nameSpace? nameSpace: this.NameSpacesId()
  return this.http.get<ResourceResult<Deployments>>(`${this.baseUrl}${environment.api.k8s}/${givenCluster}/${givenNameSpace}${environment.api.deployments}?${query}`)
  .pipe(map(res=> {
+  res.data.items  = res.data.items.sort((a,b)=> {
+    return a.metadata.name.localeCompare(b.metadata.name)
+  })
      this.result$.next(res)
+    
    return res
  }))
    .toPromise()
@@ -35,7 +39,11 @@ export class DeploymentsService extends  BaseService{
     }
     return this.http.get<ResourceResult<Deployments>>(url)
     .pipe(map(res=> {
+      res.data.items  = res.data.items.sort((a,b)=> {
+        return a.metadata.name.localeCompare(b.metadata.name)
+      })
         this.result$.next(res)
+     
       return res
     }))
       .toPromise()
@@ -46,6 +54,7 @@ export class DeploymentsService extends  BaseService{
     
     return this.http.get<ResourceResultOne<Deployments>>(`${this.baseUrl}${environment.api.k8s}/${this.clusterId()}/${nameSpace}/${environment.api.deployments}/${name}`)
     .pipe(map(res=> {
+      
       return res
     }))
       .toPromise()

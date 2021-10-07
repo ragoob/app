@@ -19,6 +19,9 @@ export class NameSpaceService  extends BaseService{
   get(): Promise<ResourceResult<NameSpace>> {
     return  this.http.get<ResourceResult<NameSpace>>(`${this.baseUrl}${environment.api.k8s}/${this.clusterId()}${environment.api.nameSpaces}`)
     .pipe(map(res => {
+      res.data.items  = res.data.items.sort((a,b)=> {
+        return a.metadata.name.localeCompare(b.metadata.name)
+      })
       this.result$.next(res)
       return res
     })).toPromise()
